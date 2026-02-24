@@ -1,4 +1,4 @@
-# TailCode (Tailscale + Kilo Wizard)
+# KiloTail (Tailscale + Kilo Wizard)
 
 ## Objective
 

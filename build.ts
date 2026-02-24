@@ -11,10 +11,10 @@ type CompileTarget =
   | "bun-linux-arm64";
 
 async function bundle() {
-  console.log("📦 Bundling tailcode CLI...");
+  console.log("📦 Bundling kilotail CLI...");
 
   const result = await Bun.build({
-    entrypoints: ["./bin/tailcode.ts"],
+    entrypoints: ["./bin/kilotail.ts"],
     outdir: "./dist",
     target: "bun",
     conditions: ["browser"],
@@ -31,14 +31,14 @@ async function bundle() {
     process.exit(1);
   }
 
-  console.log(`✅ Bundled to dist/tailcode.js (${result.outputs.length} files)`);
+  console.log(`✅ Bundled to dist/kilotail.js (${result.outputs.length} files)`);
   return result;
 }
 
 async function compile(target: CompileTarget, bundlePath: string) {
   const isWindows = target.includes("windows");
   const ext = isWindows ? ".exe" : "";
-  const outputName = `tailcode-${target.replace("bun-", "")}${ext}`;
+  const outputName = `kilotail-${target.replace("bun-", "")}${ext}`;
   const outputPath = `${RELEASES_DIR}/${outputName}`;
 
   console.log(`🔨 Compiling for ${target}...`);
@@ -86,7 +86,7 @@ async function main() {
     }
 
     case "compile": {
-      const bundlePath = "./dist/tailcode.js";
+      const bundlePath = "./dist/kilotail.js";
       if (!existsSync(bundlePath)) {
         console.log("📦 Bundle not found, bundling first...");
         await bundle();
@@ -130,7 +130,7 @@ async function main() {
       console.log("Usage: bun run build.ts [bundle|compile]");
       console.log("");
       console.log("Commands:");
-      console.log("  bundle   - Bundle to dist/tailcode.js");
+      console.log("  bundle   - Bundle to dist/kilotail.js");
       console.log("  compile  - Compile for current platform");
       process.exit(1);
     }

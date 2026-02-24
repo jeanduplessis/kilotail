@@ -119,7 +119,7 @@ export class Tailscale extends ServiceMap.Service<
       append: (line: string) => void,
     ) => Effect.Effect<string, CommandFailed | PlatformError.PlatformError>
   }
->()("@tailcode/Tailscale") {
+>()("@kilotail/Tailscale") {
   static readonly layer = Layer.effect(Tailscale)(
     Effect.gen(function* () {
       const spawner = yield* ChildProcessSpawner

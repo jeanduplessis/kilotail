@@ -19,7 +19,7 @@ export class Kilo extends ServiceMap.Service<
       append: (line: string) => void,
     ) => Effect.Effect<ChildProcessHandle | undefined, BinaryNotFound | HealthCheckFailed | PlatformError.PlatformError>
   }
->()("@tailcode/Kilo") {
+>()("@kilotail/Kilo") {
   static readonly layer = Layer.effect(Kilo)(
     Effect.gen(function* () {
       const spawner = yield* ChildProcessSpawner

@@ -12,12 +12,12 @@ export class AppConfig extends ServiceMap.Service<
     readonly port: Port
     readonly password: Password
   }
->()("@tailcode/AppConfig") {
+>()("@kilotail/AppConfig") {
   static readonly layer = Layer.effect(AppConfig)(
     Effect.gen(function* () {
       const config = Config.all({
-        port: Config.schema(Port, "TAILCODE_PORT").pipe(Config.withDefault(() => Port.makeUnsafe(4096))),
-        password: Config.schema(Password, "TAILCODE_PASSWORD").pipe(
+        port: Config.schema(Port, "KILOTAIL_PORT").pipe(Config.withDefault(() => Port.makeUnsafe(4096))),
+        password: Config.schema(Password, "KILOTAIL_PASSWORD").pipe(
           Config.withDefault(() => Password.makeUnsafe(Redacted.make(""))),
         ),
       })

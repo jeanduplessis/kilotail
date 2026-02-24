@@ -6,12 +6,12 @@ const DEFAULT_PORT = 4096
 
 function printHelp() {
   process.stdout.write(
-    `tailcode\n\nUsage:\n  tailcode [--attach] [--help]\n\nOptions:\n  --attach  Attach to an already-running local Kilo server\n  --help    Show this help\n`,
+    `kilotail\n\nUsage:\n  kilotail [--attach] [--help]\n\nOptions:\n  --attach  Attach to an already-running local Kilo server\n  --help    Show this help\n`,
   )
 }
 
 function resolvePort() {
-  const raw = process.env.TAILCODE_PORT
+  const raw = process.env.KILOTAIL_PORT
   if (!raw) return DEFAULT_PORT
   const parsed = Number.parseInt(raw, 10)
   return Number.isInteger(parsed) && parsed > 0 && parsed <= 65535 ? parsed : DEFAULT_PORT
@@ -35,12 +35,12 @@ async function isHealthy(port: number) {
 async function runAttach(port: number) {
   const bin = Bun.which("kilo")
   if (!bin) {
-    process.stderr.write("tailcode: 'kilo' is not installed\n")
+    process.stderr.write("kilotail: 'kilo' is not installed\n")
     process.exit(1)
   }
 
   const target = `http://127.0.0.1:${port}`
-  process.stdout.write(`tailcode: attaching to ${target}\n`)
+  process.stdout.write(`kilotail: attaching to ${target}\n`)
 
   const child = Bun.spawn([bin, "attach", target], {
     stdin: "inherit",
@@ -66,7 +66,7 @@ if (forceAttach) {
   if (healthy) {
     await runAttach(port)
   } else {
-    process.stderr.write(`tailcode: Kilo is not running on http://127.0.0.1:${port}\n`)
+    process.stderr.write(`kilotail: Kilo is not running on http://127.0.0.1:${port}\n`)
     process.exit(1)
   }
 }

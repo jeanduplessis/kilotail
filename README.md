@@ -1,6 +1,6 @@
-# TailCode
+# KiloTail
 
-TailCode is a terminal wizard that connects Tailscale + Kilo and publishes Kilo to your tailnet with a shareable URL and QR code.
+KiloTail is a terminal wizard that connects Tailscale + Kilo and publishes Kilo to your tailnet with a shareable URL and QR code.
 
 ## Quick Install
 
@@ -9,29 +9,29 @@ Prerequisites: `tailscale` and `kilo` installed and available on your PATH.
 ### Homebrew (recommended)
 
 ```bash
-brew tap kitlangton/tap
-brew install tailcode
-tailcode
+brew tap jeanduplessis/tap
+brew install kilotail
+kilotail
 ```
 
 ### Bunx (no global install)
 
 ```bash
-bunx @kitlangton/tailcode
+bunx @jeanduplessis/kilotail
 ```
 
 ### Direct binary
 
-Download the latest binary from [GitHub Releases](https://github.com/kitlangton/tailcode/releases/latest), mark it executable, then run it:
+Download the latest binary from [GitHub Releases](https://github.com/jeanduplessis/kilotail/releases/latest), mark it executable, then run it:
 
 ```bash
-chmod +x ./tailcode
-./tailcode
+chmod +x ./kilotail
+./kilotail
 ```
 
 ## How It Works
 
-- TailCode checks that `tailscale` and `kilo` are installed
+- KiloTail checks that `tailscale` and `kilo` are installed
 - If Tailscale is not connected, it prompts you to sign in (including QR-based flows from Tailscale)
 - It starts Kilo locally only (`127.0.0.1`, default port `4096`)
 - It runs `tailscale serve` so the app is reachable from devices on your tailnet
@@ -59,37 +59,37 @@ tailscale version
 kilo --version
 ```
 
-## Run TailCode
+## Run KiloTail
 
 ### Option 1: Binary Releases (Recommended)
 
-Download pre-built binaries from [GitHub Releases](https://github.com/kitlangton/tailcode/releases):
+Download pre-built binaries from [GitHub Releases](https://github.com/jeanduplessis/kilotail/releases):
 
 ```bash
 # macOS (Apple Silicon)
-curl -L -o tailcode https://github.com/kitlangton/tailcode/releases/latest/download/tailcode-darwin-arm64
-chmod +x tailcode
-./tailcode
+curl -L -o kilotail https://github.com/jeanduplessis/kilotail/releases/latest/download/kilotail-darwin-arm64
+chmod +x kilotail
+./kilotail
 
 # macOS (Intel)
-curl -L -o tailcode https://github.com/kitlangton/tailcode/releases/latest/download/tailcode-darwin-x64
-chmod +x tailcode
-./tailcode
+curl -L -o kilotail https://github.com/jeanduplessis/kilotail/releases/latest/download/kilotail-darwin-x64
+chmod +x kilotail
+./kilotail
 
 # Linux (x64)
-curl -L -o tailcode https://github.com/kitlangton/tailcode/releases/latest/download/tailcode-linux-x64
-chmod +x tailcode
-./tailcode
+curl -L -o kilotail https://github.com/jeanduplessis/kilotail/releases/latest/download/kilotail-linux-x64
+chmod +x kilotail
+./kilotail
 
 # Linux (ARM64)
-curl -L -o tailcode https://github.com/kitlangton/tailcode/releases/latest/download/tailcode-linux-arm64
-chmod +x tailcode
-./tailcode
+curl -L -o kilotail https://github.com/jeanduplessis/kilotail/releases/latest/download/kilotail-linux-arm64
+chmod +x kilotail
+./kilotail
 ```
 
 ### Option 2: Via Bun (requires Bun runtime)
 
-Requires Bun (the `tailcode` executable is a Bun CLI):
+Requires Bun (the `kilotail` executable is a Bun CLI):
 
 ```bash
 curl -fsSL https://bun.sh/install | bash
@@ -98,14 +98,14 @@ curl -fsSL https://bun.sh/install | bash
 Run without installing globally:
 
 ```bash
-bunx @kitlangton/tailcode
+bunx @jeanduplessis/kilotail
 ```
 
 Or install globally:
 
 ```bash
-bun add -g @kitlangton/tailcode
-tailcode
+bun add -g @jeanduplessis/kilotail
+kilotail
 ```
 
 ### Option 3: Run from Source
@@ -123,21 +123,21 @@ bun run dev
 
 ## Optional Configuration
 
-- `TAILCODE_PORT` (default: `4096`)
-- `TAILCODE_PASSWORD` (optional; passed as `OPENCODE_SERVER_PASSWORD`)
+- `KILOTAIL_PORT` (default: `4096`)
+- `KILOTAIL_PASSWORD` (optional; passed as `OPENCODE_SERVER_PASSWORD`)
 
 Example:
 
 ```bash
-TAILCODE_PORT=4096 TAILCODE_PASSWORD=secret bun run start
+KILOTAIL_PORT=4096 KILOTAIL_PASSWORD=secret bun run start
 ```
 
 ## Usage Notes
 
 - The published URL is only reachable from devices on your Tailscale tailnet
 - Kilo is bound to localhost to avoid exposing it on your LAN
-- `tailcode` always opens the setup wizard (use `tailcode --attach` for explicit attach)
-- TailCode shows a local attach command after setup: `kilo attach http://127.0.0.1:4096`
+- `kilotail` always opens the setup wizard (use `kilotail --attach` for explicit attach)
+- KiloTail shows a local attach command after setup: `kilo attach http://127.0.0.1:4096`
 
 ## Binary Releases
 

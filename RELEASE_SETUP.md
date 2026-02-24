@@ -31,11 +31,11 @@ You have **two options**:
 
 This is the modern, secure approach (no long-lived tokens). When Bun fully supports OIDC:
 
-1. Go to https://www.npmjs.com/package/@kitlangton/tailcode
+1. Go to https://www.npmjs.com/package/@jeanduplessis/kilotail
 2. Settings → "Trusted Publishers"
 3. Add GitHub repository:
-   - Owner: `kitlangton`
-   - Repo: `tailcode`
+   - Owner: `jeanduplessis`
+   - Repo: `kilotail`
    - Workflow: `.github/workflows/release-binaries.yml`
 4. Then uncomment the "Option A" section in the workflow and remove "Option B"
 
@@ -47,14 +47,14 @@ You can test the workflow without creating a real release:
 # 1. Build locally to verify everything works
 bun run build:bundle
 bun run build:compile
-./dist/releases/tailcode-darwin-arm64 --help
+./dist/releases/kilotail-darwin-arm64 --help
 
 # 2. Create a test tag and push to trigger GitHub Actions
 git tag v0.1.2-test
 git push origin v0.1.2-test
 
 # 3. Watch the Actions run at:
-# https://github.com/kitlangton/tailcode/actions
+# https://github.com/jeanduplessis/kilotail/actions
 
 # 4. After testing, delete the test tag
 git tag -d v0.1.2-test
@@ -82,15 +82,15 @@ git push origin v0.2.0
 ## What Gets Published
 
 ### GitHub Release Assets:
-- `tailcode-darwin-arm64` (macOS Apple Silicon)
-- `tailcode-darwin-x64` (macOS Intel)
-- `tailcode-linux-x64` (Linux x64)
-- `tailcode-linux-arm64` (Linux ARM)
-- `tailcode-windows-x64.exe` (Windows x64)
+- `kilotail-darwin-arm64` (macOS Apple Silicon)
+- `kilotail-darwin-x64` (macOS Intel)
+- `kilotail-linux-x64` (Linux x64)
+- `kilotail-linux-arm64` (Linux ARM)
+- `kilotail-windows-x64.exe` (Windows x64)
 - `SHA256SUMS` (checksums for verification)
 
 ### NPM Package:
-The existing bundled JS (`dist/tailcode.js`) is published to NPM as `@kitlangton/tailcode`
+The existing bundled JS (`dist/kilotail.js`) is published to NPM as `@jeanduplessis/kilotail`
 
 ## Order of Operations
 
@@ -110,13 +110,13 @@ This order ensures:
 If something goes wrong:
 
 1. **Delete GitHub Release**: Go to Releases → Delete the broken release
-2. **Unpublish NPM** (within 24h): `npm unpublish @kitlangton/tailcode@0.2.0`
+2. **Unpublish NPM** (within 24h): `npm unpublish @jeanduplessis/kilotail@0.2.0`
 3. **Delete tag**: `git push --delete origin v0.2.0 && git tag -d v0.2.0`
 4. **Fix issue** and retag
 
 ## Monitoring
 
 Watch the releases at:
-- GitHub: https://github.com/kitlangton/tailcode/releases
-- NPM: https://www.npmjs.com/package/@kitlangton/tailcode
-- Actions: https://github.com/kitlangton/tailcode/actions
+- GitHub: https://github.com/jeanduplessis/kilotail/releases
+- NPM: https://www.npmjs.com/package/@jeanduplessis/kilotail
+- Actions: https://github.com/jeanduplessis/kilotail/actions

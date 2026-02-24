@@ -196,7 +196,7 @@ function Showcase() {
 }
 
 const initial = parseSceneArg(process.argv[2])
-console.log(`TailCode screenbook: ${sceneHelp(initial)}`)
+console.log(`KiloTail screenbook: ${sceneHelp(initial)}`)
 console.log("Keys: [left/right] cycle screens [q] quit")
 
 render(
