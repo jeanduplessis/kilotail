@@ -12,20 +12,20 @@ import { error, log, missingBinary, phase, registry, step, url } from "./state.j
 type Scene =
   | "welcome"
   | "running-tailscale"
-  | "running-opencode"
+  | "running-kilo"
   | "running-publish"
   | "install-tailscale"
-  | "install-opencode"
+  | "install-kilo"
   | "error"
   | "done"
 
 const sceneOrder: ReadonlyArray<Scene> = [
   "welcome",
   "running-tailscale",
-  "running-opencode",
+  "running-kilo",
   "running-publish",
   "install-tailscale",
-  "install-opencode",
+  "install-kilo",
   "error",
   "done",
 ]
@@ -33,10 +33,10 @@ const sceneOrder: ReadonlyArray<Scene> = [
 function sceneHelp(scene: Scene) {
   if (scene === "welcome") return "Welcome screen"
   if (scene === "running-tailscale") return "Running screen - tailscale step"
-  if (scene === "running-opencode") return "Running screen - opencode step"
+  if (scene === "running-kilo") return "Running screen - kilo step"
   if (scene === "running-publish") return "Running screen - publish step"
   if (scene === "install-tailscale") return "Install guidance screen (tailscale)"
-  if (scene === "install-opencode") return "Install guidance screen (opencode)"
+  if (scene === "install-kilo") return "Install guidance screen (kilo)"
   if (scene === "error") return "Error screen"
   return "Done screen"
 }
@@ -60,12 +60,12 @@ function applyScene(scene: Scene) {
     return
   }
 
-  if (scene === "running-opencode") {
+  if (scene === "running-kilo") {
     registry.set(phase, "running")
-    registry.set(step, "opencode")
+    registry.set(step, "kilo")
     registry.set(
       log,
-      "Checking Tailscale connection...\nTailscale connected.\nStarting OpenCode on 127.0.0.1:4096...\n",
+      "Checking Tailscale connection...\nTailscale connected.\nStarting Kilo on 127.0.0.1:4096...\n",
     )
     return
   }
@@ -75,7 +75,7 @@ function applyScene(scene: Scene) {
     registry.set(step, "publish")
     registry.set(
       log,
-      "Checking Tailscale connection...\nTailscale connected.\nStarting OpenCode on 127.0.0.1:4096...\nOpenCode healthy.\nPublishing with tailscale serve...\n",
+      "Checking Tailscale connection...\nTailscale connected.\nStarting Kilo on 127.0.0.1:4096...\nKilo healthy.\nPublishing with tailscale serve...\n",
     )
     return
   }
@@ -89,11 +89,11 @@ function applyScene(scene: Scene) {
     return
   }
 
-  if (scene === "install-opencode") {
+  if (scene === "install-kilo") {
     registry.set(phase, "install")
-    registry.set(step, "opencode")
-    registry.set(missingBinary, "opencode")
-    registry.set(error, "opencode is not installed")
+    registry.set(step, "kilo")
+    registry.set(missingBinary, "kilo")
+    registry.set(error, "kilo is not installed")
     registry.set(log, "Checking Tailscale connection...\nTailscale connected.\n")
     return
   }
@@ -119,10 +119,10 @@ function parseSceneArg(raw: string | undefined): Scene {
 
   if (value === "welcome") return "welcome"
   if (value === "tailscale") return "running-tailscale"
-  if (value === "opencode") return "running-opencode"
+  if (value === "kilo") return "running-kilo"
   if (value === "publish" || value === "running") return "running-publish"
   if (value === "install" || value === "install-tailscale") return "install-tailscale"
-  if (value === "install-opencode") return "install-opencode"
+  if (value === "install-kilo") return "install-kilo"
   if (value === "error") return "error"
   if (value === "done") return "done"
 
@@ -131,10 +131,9 @@ function parseSceneArg(raw: string | undefined): Scene {
 
 function tabLabel(scene: Scene) {
   if (scene === "running-tailscale") return "tailscale"
-  if (scene === "running-opencode") return "opencode"
+  if (scene === "running-kilo") return "kilo"
   if (scene === "running-publish") return "publish"
   if (scene === "install-tailscale") return "install-ts"
-  if (scene === "install-opencode") return "install-oc"
   return scene
 }
 

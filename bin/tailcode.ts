@@ -6,7 +6,7 @@ const DEFAULT_PORT = 4096
 
 function printHelp() {
   process.stdout.write(
-    `tailcode\n\nUsage:\n  tailcode [--attach] [--help]\n\nOptions:\n  --attach  Attach to an already-running local OpenCode server\n  --help    Show this help\n`,
+    `tailcode\n\nUsage:\n  tailcode [--attach] [--help]\n\nOptions:\n  --attach  Attach to an already-running local Kilo server\n  --help    Show this help\n`,
   )
 }
 
@@ -33,9 +33,9 @@ async function isHealthy(port: number) {
 }
 
 async function runAttach(port: number) {
-  const bin = Bun.which("opencode")
+  const bin = Bun.which("kilo")
   if (!bin) {
-    process.stderr.write("tailcode: 'opencode' is not installed\n")
+    process.stderr.write("tailcode: 'kilo' is not installed\n")
     process.exit(1)
   }
 
@@ -66,7 +66,7 @@ if (forceAttach) {
   if (healthy) {
     await runAttach(port)
   } else {
-    process.stderr.write(`tailcode: OpenCode is not running on http://127.0.0.1:${port}\n`)
+    process.stderr.write(`tailcode: Kilo is not running on http://127.0.0.1:${port}\n`)
     process.exit(1)
   }
 }

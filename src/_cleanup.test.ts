@@ -32,8 +32,8 @@ async function tailscaleServeStatus(): Promise<string> {
   return `${stdout}\n${stderr}`
 }
 
-async function opencodeProcesses(): Promise<string[]> {
-  const proc = Bun.spawn(["pgrep", "-f", "opencode.*serve.*--port 4096"], {
+async function kiloProcesses(): Promise<string[]> {
+  const proc = Bun.spawn(["pgrep", "-f", "kilo.*serve.*--port 4096"], {
     stdin: "ignore",
     stdout: "pipe",
     stderr: "ignore",
@@ -45,8 +45,8 @@ async function opencodeProcesses(): Promise<string[]> {
 
 // Ensure clean state before each test
 async function cleanSlate() {
-  // Kill any leftover opencode processes
-  const pids = await opencodeProcesses()
+  // Kill any leftover kilo processes
+  const pids = await kiloProcesses()
   for (const pid of pids) {
     try {
       process.kill(Number(pid))
@@ -60,13 +60,13 @@ async function cleanSlate() {
   })
 }
 
-test("cleanup on Esc: kills opencode + removes tailscale serve", async () => {
+test("cleanup on Esc: kills kilo + removes tailscale serve", async () => {
   await cleanSlate()
 
   // Verify clean starting state
   const statusBefore = await tailscaleServeStatus()
   expect(statusBefore).toContain("No serve config")
-  const pidsBefore = await opencodeProcesses()
+  const pidsBefore = await kiloProcesses()
   expect(pidsBefore).toHaveLength(0)
 
   // Launch, start the flow, wait for done screen
@@ -83,8 +83,8 @@ test("cleanup on Esc: kills opencode + removes tailscale serve", async () => {
   console.log("SERVE STATUS DURING:", statusDuring.trim())
   expect(statusDuring).toContain("proxy")
 
-  const pidsDuring = await opencodeProcesses()
-  console.log("OPENCODE PIDS DURING:", pidsDuring)
+  const pidsDuring = await kiloProcesses()
+  console.log("KILO PIDS DURING:", pidsDuring)
   expect(pidsDuring.length).toBeGreaterThan(0)
 
   // Press Escape to trigger cleanup + exit
@@ -98,8 +98,8 @@ test("cleanup on Esc: kills opencode + removes tailscale serve", async () => {
   console.log("SERVE STATUS AFTER:", statusAfter.trim())
   expect(statusAfter).toContain("No serve config")
 
-  const pidsAfter = await opencodeProcesses()
-  console.log("OPENCODE PIDS AFTER:", pidsAfter)
+  const pidsAfter = await kiloProcesses()
+  console.log("KILO PIDS AFTER:", pidsAfter)
   expect(pidsAfter).toHaveLength(0)
 
   session.close()

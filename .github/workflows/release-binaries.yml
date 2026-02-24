@@ -154,7 +154,7 @@ jobs:
           sha_linux_x64 = os.environ["SHA256_LINUX_X64"]
 
           formula = f'''class Tailcode < Formula
-            desc "Terminal wizard for publishing OpenCode to your Tailscale tailnet"
+            desc "Terminal wizard for publishing Kilo to your Tailscale tailnet"
             homepage "https://github.com/kitlangton/tailcode"
             version "{version_no_v}"
 

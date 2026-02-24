@@ -26,7 +26,7 @@ export const color = {
   dim: "#666f82",
 }
 
-// -- Wordmark (same pixel font as opencode's logo.ts) --
+// -- Wordmark (same pixel font as kilo's logo.ts) --
 const LOGO = {
   left: ["                   ", "▀▀█▀  ▄▀█ ▀▀█▀  ▄▀ ", " ▄▀  ▄▀▀█  ▄▀  ▄▀  ", " ▀   ▀  ▀ ▀▀▀▀ ▀▀▀▀"],
   right: ["             ▄     ", "█▀▀▀ █▀▀█ █▀▀█ █▀▀█", "█___ █__█ █__█ █^^^", "▀▀▀▀ ▀▀▀▀ ▀▀▀▀ ▀▀▀▀"],
@@ -40,33 +40,15 @@ type InstallGuide = {
 }
 
 type StageState = "pending" | "active" | "done" | "error"
-const STAGE_ORDER: ReadonlyArray<Step> = ["tailscale", "opencode", "publish"]
+const STAGE_ORDER: ReadonlyArray<Step> = ["tailscale", "kilo", "publish"]
 
 function getInstallGuide(binary: MissingBinary, platform: NodeJS.Platform): InstallGuide {
-  if (binary === "opencode") {
-    if (platform === "darwin") {
-      return {
-        title: "Install OpenCode for macOS",
-        docsUrl: "https://opencode.ai/docs/#install",
-        installCommand: "brew install anomalyco/tap/opencode",
-        installHint: "Alternative: bun install -g opencode-ai",
-      }
-    }
-
-    if (platform === "win32") {
-      return {
-        title: "Install OpenCode for Windows",
-        docsUrl: "https://opencode.ai/docs/windows-wsl",
-        installCommand: "choco install opencode",
-        installHint: "Recommended path is WSL2. Open the docs for setup details.",
-      }
-    }
-
+  if (binary === "kilo") {
     return {
-      title: "Install OpenCode for Linux",
-      docsUrl: "https://opencode.ai/docs/#install",
-      installCommand: "curl -fsSL https://opencode.ai/install | bash",
-      installHint: "Alternative: bun install -g opencode-ai",
+      title: "Install Kilo CLI",
+      docsUrl: "https://kilo.ai/docs/code-with-ai/platforms/cli",
+      installCommand: "npm install -g @kilocode/cli",
+      installHint: "Alternative: bun install -g @kilocode/cli",
     }
   }
 
@@ -228,7 +210,7 @@ export function App(props: AppProps = {}) {
     }
   })
 
-  const localCmd = () => `opencode attach http://127.0.0.1:4096`
+  const localCmd = () => `kilo attach http://127.0.0.1:4096`
 
   const terminalWidth = createMemo(() => {
     const width = Number(dims().width ?? 80)
@@ -362,7 +344,7 @@ export function App(props: AppProps = {}) {
 
     if (currentPhase() === "done") return "done"
     if (currentPhase() === "install") {
-      const failedStep: Step = currentMissingBinary() === "opencode" ? "opencode" : "tailscale"
+      const failedStep: Step = currentMissingBinary() === "kilo" ? "kilo" : "tailscale"
       return id === failedStep ? "error" : "pending"
     }
 
@@ -413,7 +395,7 @@ export function App(props: AppProps = {}) {
   const stageRow = () => (
     <box flexDirection="row" gap={0}>
       {stageBadge("tailscale", "Tailscale")}
-      {stageBadge("opencode", "OpenCode")}
+      {stageBadge("kilo", "Kilo")}
       {stageBadge("publish", "Publish")}
     </box>
   )
@@ -443,11 +425,11 @@ export function App(props: AppProps = {}) {
           </box>
           <Show when={currentPhase() === "welcome"}>
             <Panel>
-              <text fg={color.dim}>Guided setup for OpenCode over Tailscale</text>
+              <text fg={color.dim}>Guided setup for Kilo over Tailscale</text>
               <text>{""}</text>
               <text fg={color.text}>This wizard will:</text>
               <text fg={color.muted}>· Connect to Tailscale</text>
-              <text fg={color.muted}>· Start OpenCode server on localhost</text>
+              <text fg={color.muted}>· Start Kilo server on localhost</text>
               <text fg={color.muted}>· Publish with tailscale serve</text>
               <text>{""}</text>
               <ActionRow

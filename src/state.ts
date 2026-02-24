@@ -2,8 +2,8 @@ import * as Atom from "effect/unstable/reactivity/Atom"
 import * as AtomRegistry from "effect/unstable/reactivity/AtomRegistry"
 
 export type Phase = "welcome" | "running" | "done" | "error" | "install"
-export type Step = "idle" | "tailscale" | "opencode" | "publish"
-export type MissingBinary = "" | "tailscale" | "opencode"
+export type Step = "idle" | "tailscale" | "kilo" | "publish"
+export type MissingBinary = "" | "tailscale" | "kilo"
 
 export const phase = Atom.make<Phase>("welcome")
 export const step = Atom.make<Step>("idle")

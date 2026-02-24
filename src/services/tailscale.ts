@@ -112,7 +112,7 @@ export class Tailscale extends ServiceMap.Service<
     readonly ensure: (
       append: (line: string) => void,
     ) => Effect.Effect<string, BinaryNotFound | CommandFailed | PlatformError.PlatformError>
-    /** Publish local OpenCode port via tailscale serve and return remote URL. */
+    /** Publish local Kilo port via tailscale serve and return remote URL. */
     readonly publish: (
       bin: string,
       port: number,

@@ -2,7 +2,7 @@ import { Deferred, Effect, Layer } from "effect"
 import { appRuntime } from "./runtime.js"
 import { registry, phase, step, log, url, error, missingBinary } from "./state.js"
 import { Tailscale } from "./services/tailscale.js"
-import { OpenCode } from "./services/opencode.js"
+import { Kilo } from "./services/kilo.js"
 import { AppConfig } from "./services/config.js"
 import { stripTerminalControl, trim } from "./qr.js"
 import { BinaryNotFound } from "./services/errors.js"
@@ -44,15 +44,15 @@ export const flowFn = appRuntime.fn<void>()(() =>
 
     const config = yield* AppConfig
     const tailscale = yield* Tailscale
-    const opencode = yield* OpenCode
+    const kilo = yield* Kilo
 
     // Step 1: Tailscale — ensure connected
     registry.set(step, "tailscale")
     const bin = yield* tailscale.ensure(append)
 
-    // Step 2: OpenCode — start server (handle lives in scope via ChildProcess.spawn)
-    registry.set(step, "opencode")
-    yield* opencode.start(config.port, config.password, append)
+    // Step 2: Kilo — start server (handle lives in scope via ChildProcess.spawn)
+    registry.set(step, "kilo")
+    yield* kilo.start(config.port, config.password, append)
 
     // Step 3: Publish via tailscale serve
     registry.set(step, "publish")
@@ -73,7 +73,7 @@ export const flowFn = appRuntime.fn<void>()(() =>
         if ((err as any)?._tag === "BinaryNotFound") {
           const missing = err as BinaryNotFound
           registry.set(error, `${missing.binary} is not installed`)
-          if (missing.binary === "tailscale" || missing.binary === "opencode") {
+          if (missing.binary === "tailscale" || missing.binary === "kilo") {
             registry.set(missingBinary, missing.binary)
           } else {
             registry.set(missingBinary, "")
@@ -87,7 +87,7 @@ export const flowFn = appRuntime.fn<void>()(() =>
         registry.set(phase, "error")
       }),
     ),
-    Effect.provide(Layer.mergeAll(Tailscale.layer, OpenCode.layer)),
+    Effect.provide(Layer.mergeAll(Tailscale.layer, Kilo.layer)),
     Effect.ensuring(
       Effect.sync(() => {
         flowRunning = false

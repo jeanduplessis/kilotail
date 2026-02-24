@@ -9,24 +9,24 @@ import { spawnInScope, streamToAppender } from "./process.js"
 // Service
 // ---------------------------------------------------------------------------
 
-export class OpenCode extends ServiceMap.Service<
-  OpenCode,
+export class Kilo extends ServiceMap.Service<
+  Kilo,
   {
-    /** Start local OpenCode server and wait until health endpoint responds. */
+    /** Start local Kilo server and wait until health endpoint responds. */
     readonly start: (
       port: number,
       password: string | Redacted.Redacted<string>,
       append: (line: string) => void,
     ) => Effect.Effect<ChildProcessHandle | undefined, BinaryNotFound | HealthCheckFailed | PlatformError.PlatformError>
   }
->()("@tailcode/OpenCode") {
-  static readonly layer = Layer.effect(OpenCode)(
+>()("@tailcode/Kilo") {
+  static readonly layer = Layer.effect(Kilo)(
     Effect.gen(function* () {
       const spawner = yield* ChildProcessSpawner
       const scope = yield* Effect.scope
 
-      /** Start opencode bound to localhost and tie lifecycle to service scope. */
-      const start = Effect.fn("OpenCode.start")(function* (
+      /** Start kilo bound to localhost and tie lifecycle to service scope. */
+      const start = Effect.fn("Kilo.start")(function* (
         port: number,
         password: string | Redacted.Redacted<string>,
         append: (line: string) => void,
@@ -37,14 +37,14 @@ export class OpenCode extends ServiceMap.Service<
         }).pipe(Effect.catch(() => Effect.succeed(false)))
 
         if (alreadyHealthy) {
-          append(`OpenCode server already running on 127.0.0.1:${port}\n`)
+          append(`Kilo server already running on 127.0.0.1:${port}\n`)
           return undefined
         }
 
-        const bin = Bun.which("opencode")
-        if (!bin) return yield* new BinaryNotFound({ binary: "opencode" })
+        const bin = Bun.which("kilo")
+        if (!bin) return yield* new BinaryNotFound({ binary: "kilo" })
 
-        append(`Starting OpenCode server on 127.0.0.1:${port}...\n`)
+        append(`Starting Kilo server on 127.0.0.1:${port}...\n`)
 
         const env: Record<string, string> = {}
         for (const [k, v] of Object.entries(process.env)) {
@@ -92,7 +92,7 @@ export class OpenCode extends ServiceMap.Service<
           Effect.gen(function* () {
             yield* handle.kill().pipe(Effect.ignore)
             return yield* new HealthCheckFailed({
-              message: `OpenCode server did not become healthy\n${buffer}`,
+              message: `Kilo server did not become healthy\n${buffer}`,
             })
           }),
         )

@@ -1,10 +1,10 @@
 # TailCode
 
-TailCode is a terminal wizard that connects Tailscale + OpenCode and publishes OpenCode to your tailnet with a shareable URL and QR code.
+TailCode is a terminal wizard that connects Tailscale + Kilo and publishes Kilo to your tailnet with a shareable URL and QR code.
 
 ## Quick Install
 
-Prerequisites: `tailscale` and `opencode` installed and available on your PATH.
+Prerequisites: `tailscale` and `kilo` installed and available on your PATH.
 
 ### Homebrew (recommended)
 
@@ -31,9 +31,9 @@ chmod +x ./tailcode
 
 ## How It Works
 
-- TailCode checks that `tailscale` and `opencode` are installed
+- TailCode checks that `tailscale` and `kilo` are installed
 - If Tailscale is not connected, it prompts you to sign in (including QR-based flows from Tailscale)
-- It starts OpenCode locally only (`127.0.0.1`, default port `4096`)
+- It starts Kilo locally only (`127.0.0.1`, default port `4096`)
 - It runs `tailscale serve` so the app is reachable from devices on your tailnet
 - It keeps the process alive until you quit, then cleans up the local server process
 
@@ -47,17 +47,16 @@ chmod +x ./tailcode
 
 Then sign in and make sure Tailscale is running on this machine.
 
-2. Install OpenCode
+2. Install Kilo CLI
 
-- macOS: `brew install anomalyco/tap/opencode`
-- Linux: `curl -fsSL https://opencode.ai/install | bash`
-- Alternative: `bun install -g opencode-ai`
+- All platforms: `npm install -g @kilocode/cli`
+- Alternative: `bun install -g @kilocode/cli`
 
 Verify both commands work:
 
 ```bash
 tailscale version
-opencode --version
+kilo --version
 ```
 
 ## Run TailCode
@@ -125,7 +124,7 @@ bun run dev
 ## Optional Configuration
 
 - `TAILCODE_PORT` (default: `4096`)
-- `TAILCODE_PASSWORD` (optional; passed to `OPENCODE_SERVER_PASSWORD`)
+- `TAILCODE_PASSWORD` (optional; passed as `OPENCODE_SERVER_PASSWORD`)
 
 Example:
 
@@ -136,9 +135,9 @@ TAILCODE_PORT=4096 TAILCODE_PASSWORD=secret bun run start
 ## Usage Notes
 
 - The published URL is only reachable from devices on your Tailscale tailnet
-- OpenCode is bound to localhost to avoid exposing it on your LAN
+- Kilo is bound to localhost to avoid exposing it on your LAN
 - `tailcode` always opens the setup wizard (use `tailcode --attach` for explicit attach)
-- TailCode shows a local attach command after setup: `opencode attach http://127.0.0.1:4096`
+- TailCode shows a local attach command after setup: `kilo attach http://127.0.0.1:4096`
 
 ## Binary Releases
 

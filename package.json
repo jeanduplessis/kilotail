@@ -1,7 +1,7 @@
 {
   "name": "@kitlangton/tailcode",
   "version": "0.2.3",
-  "description": "Terminal wizard for publishing OpenCode to your Tailscale tailnet",
+  "description": "Terminal wizard for publishing Kilo to your Tailscale tailnet",
   "license": "MIT",
   "type": "module",
   "repository": {
@@ -14,7 +14,7 @@
   },
   "keywords": [
     "tailscale",
-    "opencode",
+    "kilo",
     "cli",
     "tui",
     "bun"
